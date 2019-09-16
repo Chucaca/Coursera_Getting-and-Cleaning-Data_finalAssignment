@@ -1,0 +1,48 @@
+The run_analysis.R script performs the data collected and tidied, followed by the 5 steps required in the course project’s definition.
+
+   1. Download the dataset
+        Dataset downloaded and extracted under the folder called UCI HAR Dataset
+
+   2. Assign each data to variables
+        features <- features.txt : 561 obs, 2 variables
+        The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ.
+        activities <- activity_labels.txt : 6 obs, 2 variables
+        List of activities performed when the corresponding measurements were taken and its codes (labels)
+        data_train_x <- test/X_train.txt : 7352 obs, 561 variables
+        contains recorded features train data
+        data_train_y <- test/y_train.txt : 7352 obs, 1 variables
+        contains train data of activities’code labels
+        data_train_Subject <- test/subject_train.txt : 7352 obs, 1 variables
+        contains train data of 21/30 volunteer subjects being observed
+        data_test_x <- test/X_test.txt : 2947 obs, 561 variables
+        contains recorded features test data
+        data_test_y <- test/y_test.txt : 2947 obs, 1 variablesns
+        contains test data of activities’code labels
+        data_test_subject <- test/subject_test.txt : 2947 obs, 1 variables
+        contains test data of 9/30 volunteer test subjects being observed
+
+    Merges the training and the test sets to create one data set
+        X (10299 obs, 561 variables) is created by merging data_train_x and data_test_x using rbind() function
+        Y (10299 obs, 1 variables) is created by merging data_train_y and data_test_y using rbind() function
+        subject (10299 obs, 1 variables) is created by merging data_train_Subject and data_test_subject using rbind() function
+        merged_Data (10299 obs, 563 variables) is created by merging subject, Y and X using cbind() function
+
+    Extracts only the measurements on the mean and standard deviation for each measurement
+        Mean_std_data (10299 obs, 88 variables) is created by subsetting merged_Data, selecting only columns: subject, code and the measurements on the mean and standard deviation (std) for each measurement
+
+    Uses descriptive activity names to name the activities in the data set
+        Entire numbers in code column of the Mean_std_data replaced with corresponding activity taken from second column of the activities variable
+
+    Appropriately labels the data set with descriptive variable names
+        code column in Mean_std_data renamed into activities
+        All Acc in column’s name replaced by Accelerometer
+        All Gyro in column’s name replaced by Gyroscope
+        All BodyBody in column’s name replaced by Body
+        All Mag in column’s name replaced by Magnitude
+        All start with character f in column’s name replaced by Frequency
+        All start with character t in column’s name replaced by Time
+
+    From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject
+        Tidy_data (180 obs, 88 variables) is created by sumarizing Mean_std_data taking the means of each variable for each activity and each subject, after groupped by subject and activity.
+        Export Tidy_data into TidyData.txt file.
+
